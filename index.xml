@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tony&#39;s Blogs</title>
-    <link>https://example.com/</link>
+    <link>https://tozhan.github.io/</link>
     <description>Recent content on Tony&#39;s Blogs</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© 2020 Title</copyright>
     <lastBuildDate>Sat, 22 Feb 2020 13:26:17 -0800</lastBuildDate>
     
-	<atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tozhan.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Gradient</title>
-      <link>https://example.com/ml/math/gradient/</link>
+      <link>https://tozhan.github.io/ml/math/gradient/</link>
       <pubDate>Sat, 22 Feb 2020 13:26:17 -0800</pubDate>
       
-      <guid>https://example.com/ml/math/gradient/</guid>
+      <guid>https://tozhan.github.io/ml/math/gradient/</guid>
       <description>Introduction Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is behind it, then you are in the right place. This page will go through:
  The mathematic foundation of gradient. Application of gradient in Machine Learning  What is Gradient Let&amp;rsquo;s be straightforward and start from official mathematic definition for gradient ([Wikipedia][https://en.wikipedia.org/wiki/Gradient]):
  The gradient of a scalar-valued differentiable function f of several variables, \({\displaystyle f\colon \mathbf {R} ^{n}\to \mathbf {R} }\), is the vector field, or more simply a vector-valued function \({\displaystyle \nabla f\colon \mathbf {R} ^{n}\to \mathbf {R} ^{n}}\), whose value at a point \({\displaystyle p}\) is the vector whose components are the partial derivatives of \({\displaystyle f}\) at \({\displaystyle p}\).</description>
