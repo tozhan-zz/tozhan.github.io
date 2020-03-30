@@ -6,7 +6,7 @@
     <description>Recent content in programming on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 Feb 2020 13:26:17 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Mar 2020 13:29:17 -0800</lastBuildDate>
     
 	<atom:link href="https://tozhan.github.io/tags/programming/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Python Descriptor Protocol Inside-out</title>
       <link>https://tozhan.github.io/post/python-descriptor-protocol-inside-out/</link>
-      <pubDate>Sat, 22 Feb 2020 13:26:17 -0800</pubDate>
+      <pubDate>Sun, 22 Mar 2020 13:29:17 -0800</pubDate>
       
       <guid>https://tozhan.github.io/post/python-descriptor-protocol-inside-out/</guid>
       <description>Introduction What is Descriptor  Descriptor Protocol Attribute Lookup Chain   Applications  Lazy Property   define lazy_property class Descriptors in Python Internals  Property Function &amp;amp; Method Class Method Static Method   Reference  Introduction Descriptor protocol is a important concept in Python, which is the basis of many Python internal implementation, such as properties, functions, class methods and static methods. This tutorial will elaborate descriptor:</description>
