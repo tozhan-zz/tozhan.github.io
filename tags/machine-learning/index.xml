@@ -17,9 +17,7 @@
       <pubDate>Sat, 22 Feb 2020 13:26:17 -0800</pubDate>
       
       <guid>https://tozhan.github.io/post/gradient/</guid>
-      <description>Introduction Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is behind it, then you are in the right place. This page will go through:
- The mathematic foundation of gradient. Application of gradient in Machine Learning  What is Gradient Let&amp;rsquo;s be straightforward and start from official mathematic definition for gradient ([Wikipedia][https://en.wikipedia.org/wiki/Gradient]):
- The gradient of a scalar-valued differentiable function f of several variables, \({\displaystyle f\colon \mathbf {R} ^{n}\to \mathbf {R} }\), is the vector field, or more simply a vector-valued function \({\displaystyle \nabla f\colon \mathbf {R} ^{n}\to \mathbf {R} ^{n}}\), whose value at a point \({\displaystyle p}\) is the vector whose components are the partial derivatives of \({\displaystyle f}\) at \({\displaystyle p}\).</description>
+      <description>Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in Machine Learning  Gradient Descent Three Types of Gradient Descent   Conclusion  Introduction Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is behind it, then you are in the right place. This page will go through:</description>
     </item>
     
   </channel>

@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="https://tozhan.github.io/favicon.ico" />
     <link rel="canonical" href="https://tozhan.github.io/post/gradient/" />
 
-     <meta name="description" content="Introduction Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is" /> 
+     <meta name="description" content="Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in " /> 
 
      
     
@@ -21,7 +21,7 @@
     
  
     <meta name="twitter:title" content="Gradient"/>
-    <meta name="twitter:description" content="Introduction Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is"/>
+    <meta name="twitter:description" content="Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in "/>
     <meta name="twitter:url" content="https://tozhan.github.io/post/gradient/" />
     <meta name="twitter:site" content="@"/>
 
@@ -31,7 +31,7 @@
     <meta property="article:publisher" content="https://www.facebook.com/tony.zhang.397948" />
 
     <meta property="og:type" content="article" />
-    <meta property="og:description" content="Introduction Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is" />
+    <meta property="og:description" content="Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in " />
 
     <meta property="article:published_time" content="2020-02-22T13:26:17-08:00" />
     <meta property="article:tag" content="machine learning" /><meta property="article:tag" content="math" />
@@ -70,6 +70,10 @@
         
             <li class="" role="menuitem">
               <a href="/tags/machine-learning">Machine Learning</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="/tags/programming">Programming</a>
             </li>
         
       </ul></div>
@@ -111,7 +115,26 @@
 
     <section class="post-full-content">
         <div class="kg-card-markdown">
-        <h1 id="introduction">Introduction</h1>
+        <!-- raw HTML omitted -->
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#what-is-gradient">What is Gradient</a>
+<ul>
+<li><a href="#one-dimensional-independent-variable">One-dimensional Independent Variable</a></li>
+<li><a href="#two-dimensional-independent-variables">Two-dimensional Independent Variables</a></li>
+<li><a href="#multi-dimensional-independent-variables">Multi-dimensional Independent Variables</a></li>
+</ul>
+</li>
+<li><a href="#gradient-in-machine-learning">Gradient in Machine Learning</a>
+<ul>
+<li><a href="#gradient-descent">Gradient Descent</a></li>
+<li><a href="#three-types-of-gradient-descent">Three Types of Gradient Descent</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<!-- raw HTML omitted -->
+<h1 id="introduction">Introduction</h1>
 <p>Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is behind it, then you are in the right place. This page will go through:</p>
 <ul>
 <li>The mathematic foundation of gradient.</li>
@@ -161,12 +184,13 @@
 </ol>
 <p><img src="/post/ml/math/gradient/vector_move.svg" alt="vector_move" title="vector_move"></p>
 <p>Assuming \(f(x,y)\) is continuous, then we can rewite the directional derivative to</p>
-<p>$$D_\vec u = \lim \limits_{h \to 0}  \frac {f(x_0+h \bullet x_d, y_0+ h \bullet y_d) - f(x_0+h \bullet x_d, y_0) + f(x_0+h \bullet x_d, y_0) -f(x_0,y_0)}{h} =\frac{\partial f(x_0,y_0)}{\partial x} \bullet x_d + \frac{\partial f(x_0,y_0)}{\partial y} \bullet y_d=\nabla f(x_0,y_0) \bullet \vec u$$</p>
+<p>$$D_\vec u = \lim \limits_{h \to 0}  \frac {f(x_0+h \bullet x_d, y_0+ h \bullet y_d) - f(x_0+h \bullet x_d, y_0) + f(x_0+h \bullet x_d, y_0) -f(x_0,y_0)}{h} $$
+$$=\frac{\partial f(x_0,y_0)}{\partial x} \bullet x_d + \frac{\partial f(x_0,y_0)}{\partial y} \bullet y_d=\nabla f(x_0,y_0) \bullet \vec u$$</p>
 <p>Provided \(\theta\) is the angle between \(\nabla f(x_0,y_0) \) and \(\vec u\), then</p>
 <p>$$\nabla f(x_0,y_0) \bullet \vec u = \lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert\ cos \theta \leq \lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert$$</p>
 <p>When and only when \(\nabla f(x_0,y_0)\) and \(\vec u\), in the same direction, we can have</p>
 <p>$$\lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert\ cos \theta = \lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert=\lVert \nabla f(x_0,y_0) \rVert$$</p>
-<h3 id="multi-dimensional-independent-variables">Multi-dimensional Independent Variables</h3>
+<h2 id="multi-dimensional-independent-variables">Multi-dimensional Independent Variables</h2>
 <p>We can continue the same analysis with multi-dimentional independent variables. With the dimension grows, the process of argument will become more complicated, but the backend logic is the same.</p>
 <h1 id="gradient-in-machine-learning">Gradient in Machine Learning</h1>
 <h2 id="gradient-descent">Gradient Descent</h2>
@@ -224,6 +248,37 @@
       
 
       
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://tozhan.github.io/post/python-descriptor-protocol-inside-out/">
+      <div class="post-card-image" style="background-image: url(https://tozhan.github.io/post/programming/python/descriptor/title.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://tozhan.github.io/post/python-descriptor-protocol-inside-out/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #programming 
+              #python  </span>
+              
+              <h2 class="post-card-title">Python Descriptor Protocol Inside-out</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>Introduction What is Descriptor  Descriptor Protocol Attribute Lookup Chain   Applications  Lazy Property   define lazy_property class Descriptors in Python Internals  Property Function &amp; Method Class Method Static Method   Reference  Introduction Descriptor protocol is a important concept in Python, which is the basis of many Python internal implementation, such as properties, functions, class methods and static methods. This tutorial will elaborate descriptor: ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://tozhan.github.io/img/author.jpg" alt="Author" />
+          <span class="post-card-author"><a href="/">Tony Zhang</a></span>
+      </footer>
+    </div>
+</article>
+
       
     </div>
   </div>
