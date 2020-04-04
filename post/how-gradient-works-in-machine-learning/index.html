@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en-us" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>How Gradient Works in Machine Learning &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://tozhan.github.io/favicon.ico" />
+    <link rel="canonical" href="https://tozhan.github.io/post/how-gradient-works-in-machine-learning/" />
+
+     <meta name="description" content="Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in " /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://tozhan.github.io/post/ml/math/gradient/title.png"/>
+    
+ 
+    <meta name="twitter:title" content="How Gradient Works in Machine Learning"/>
+    <meta name="twitter:description" content="Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in "/>
+    <meta name="twitter:url" content="https://tozhan.github.io/post/how-gradient-works-in-machine-learning/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="How Gradient Works in Machine Learning &middot; Tony&#39;s Blogs" />
+    <meta property="og:url" content="https://tozhan.github.io/post/how-gradient-works-in-machine-learning/" />
+    <meta property="article:publisher" content="https://www.facebook.com/tony.zhang.397948" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Introduction What is Gradient  One-dimensional Independent Variable Two-dimensional Independent Variables Multi-dimensional Independent Variables   Gradient in " />
+
+    <meta property="article:published_time" content="2020-02-22T13:26:17-08:00" />
+    <meta property="article:tag" content="machine learning" /><meta property="article:tag" content="math" />
+
+    <meta property="og:image" content="https://tozhan.github.io/post/ml/math/gradient/title.png"/>
+
+
+    <meta name="generator" content="Hugo 0.65.2" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://tozhan.github.io/built/screen.css" /> 
+    <link rel="stylesheet" type="text/css" href="https://tozhan.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" />
+    
+
+     
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="/post/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="/tags/machine-learning">Machine Learning</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="/tags/programming">Programming</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    <a class="social-link social-link-fb" href="https://www.facebook.com/tony.zhang.397948" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg></a>
+
+                    
+
+                    <a class="social-link" href="https://github.com/tozhan" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2020-02-22">22 February 2020</time>
+                <span class="date-divider">/</span> <a href="https://tozhan.github.io/tags/machine-learning/">#machine learning</a>&nbsp;<a href="https://tozhan.github.io/tags/math/">#math</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">How Gradient Works in Machine Learning</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://tozhan.github.io/post/ml/math/gradient/title.png)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        <!-- raw HTML omitted -->
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#what-is-gradient">What is Gradient</a>
+<ul>
+<li><a href="#one-dimensional-independent-variable">One-dimensional Independent Variable</a></li>
+<li><a href="#two-dimensional-independent-variables">Two-dimensional Independent Variables</a></li>
+<li><a href="#multi-dimensional-independent-variables">Multi-dimensional Independent Variables</a></li>
+</ul>
+</li>
+<li><a href="#gradient-in-machine-learning">Gradient in Machine Learning</a>
+<ul>
+<li><a href="#gradient-descent">Gradient Descent</a></li>
+<li><a href="#three-types-of-gradient-descent">Three Types of Gradient Descent</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<!-- raw HTML omitted -->
+<h2 id="introduction">Introduction</h2>
+<p>Gradient descent is widely used in machine learning for parameters optimization. If you have heard of gradient many times, but still wonder what is behind it, then you are in the right place. This page will go through:</p>
+<ul>
+<li>The mathematic foundation of gradient.</li>
+<li>Application of gradient in Machine Learning</li>
+</ul>
+<h2 id="what-is-gradient">What is Gradient</h2>
+<p>Let&rsquo;s be straightforward and start from official mathematic definition for gradient ([Wikipedia][https://en.wikipedia.org/wiki/Gradient]):</p>
+<blockquote>
+<p>The <strong>gradient</strong> of a scalar-valued differentiable function <em>f</em> of several variables, \({\displaystyle f\colon \mathbf {R} ^{n}\to \mathbf {R} }\), is the vector field, or more simply a vector-valued function \({\displaystyle \nabla f\colon \mathbf {R} ^{n}\to \mathbf {R} ^{n}}\), whose value at a point \({\displaystyle p}\) is the vector whose components are the partial derivatives of \({\displaystyle f}\) at \({\displaystyle p}\).</p>
+<p>$$\nabla f(p)={\begin{bmatrix}{\frac {\partial f}{\partial x_{1}}}(p)\\\vdots \\{\frac {\partial f}{\partial x_{n}}}(p)\end{bmatrix}}. $$</p>
+</blockquote>
+<p>Well, what does it mean? Let&rsquo;s paraphrase it.</p>
+<ol>
+<li>The gradient is attached to a differentiable function \(f\).</li>
+<li>The gradient is a function. It transforms a vector to another vector.</li>
+<li>The gradient transformation depends on partial derivatives.</li>
+</ol>
+<p>If we treat input vector as a point and output vector as a directional vector, then we can get some important proterties of gradient:</p>
+<ol>
+<li>The gradient value at the point \(p\) (input),  points to the direction (output) where function \(f\) increases fastestly.</li>
+<li>The length of gradient value at point \(p\) is the instantaneous increase rate of function \(f\).</li>
+</ol>
+<p>Now let&rsquo;s use some examples to show how it works.</p>
+<h3 id="one-dimensional-independent-variable">One-dimensional Independent Variable</h3>
+<p>Considering function: \(y = f(x) = x^2\). Assuming we are at point (\(x_0=2\)), now question is in which direction we can increase \(f(x)\) fastestly?</p>
+<p>Without loss of generality, let&rsquo;s use unit vector to represent the direction. For this one-dimensional space, it&rsquo;s very simple. We can only move \(x\) in two directions - \(\vec u_{left} = [-1]\) and \(\vec u_{right} = [1])\). From the diagram below, it&rsquo;s clear that \(\vec u_{right} \) will increase \(f\) and \(\vec u_{left} \) will decrease \(f\). But what if we don&rsquo;t have the diagram at hand, how to know which direction to go?</p>
+<p><img src="/post/ml/math/gradient/image1.svg" alt="x^2" title="\(f(x) = x^2\)"></p>
+<p>To answer it, we need to use Directional Derivatives, which represents the instantaneous rate of change of \(f\) in a direction. Below are Directional Derivatives for right and left direction:</p>
+<p>$$D_\vec u^{right} = \lim \limits_{h \to 0} \frac{f(x+h) - f(x)}{h} =  \lim \limits_{h \to 0} \frac{x^2 + 2xh + h^2 - x^2}{h}  = 2x$$</p>
+<p>$$D_\vec u^{left} = \lim \limits_{h \to 0} \frac{f(x-h) - f(x)}{h} =  \lim \limits_{h \to 0} \frac{x^2 - 2xh + h^2 - x^2}{h}  = -2x$$</p>
+<p>Given \(\nabla f(x) = {\begin{bmatrix} {\frac{\partial f(x)}{\partial x}} \end{bmatrix}} =[2x]\) and \(\nabla f(x_0) =[4]\),  we can merge above two formulas to:</p>
+<blockquote>
+<p>⚠ <em>\(\partial\) represents partial derivatives, and \(d\) represents total derivative. To be accurate, \(\frac {\partial f(x)}{\partial x}\) should be written as \(\frac{df(x)}{dx}\) here.</em></p>
+</blockquote>
+<p>$$D_\vec u = [\frac{\partial f(x)}{\partial x}] \bullet \vec u = \nabla f(x) \bullet \vec u = \begin{cases} -\lVert \nabla f(x)  \rVert \bullet \lVert \vec u  \rVert,\ when\ \vec u\ =[-1] \\ \lVert \nabla f(x)  \rVert \bullet \lVert \vec u  \rVert,\  when\  \vec u\ =[1] \\\end{cases}$$</p>
+<p>So gradient \(\nabla f(x)\) shows the direction and rate of fastest increase of \(f(x)\).</p>
+<h3 id="two-dimensional-independent-variables">Two-dimensional Independent Variables</h3>
+<p>Let&rsquo;s try another function \(f(x,y)=x^2+y^2\), now we have two independent variables and the independent variables space is extended to the plane of \((x, y)\). Assuming we are at \((x_0=7,y_0=7)\), which direction we can move to increase the value of \(f(x,y)\) fastestly?</p>
+<p>It&rsquo;s not as obvious as first example, there are too many options there. For example, we can move toward point \((x=5, y=7)\), but \(f(x,y)\) will decrease from 98 to 74. Is there any good way to find the direction we want?</p>
+<p><img src="/post/ml/math/gradient/image2.svg" alt="x^2+y^2" title="\(f(x,y) = x^2+y^2\)"></p>
+<p>Assuming \(\vec u = (x_d, y_d)\) is an unit vector in \((x,y)\) plane. We can define the rate of change of \(f(x,y)\) along \(\vec u\) direction at point \((x_0, y_0)\) by</p>
+<p>$$D_\vec u = \lim \limits_{h \to 0}  \frac {f(x_0+h \bullet x_d, y_0+ h \bullet y_d)-f(x_0,y_0)}{h}$$</p>
+<p>To calculate above limitation, we can take two steps to move from \((x_0,y_0)\) to \((x_0+h \bullet x_d, y_0+ h \bullet y_d)\).</p>
+<ol>
+<li>Move from \((x_0,\ y_0)\) to \((x_0+h \bullet x_d,\ y_0)\).</li>
+<li>Move from \((x_0+h \bullet x_d,\ y_0)\) to \((x_0+h \bullet x_d,\ y_0+ h \bullet  y_d)\).</li>
+</ol>
+<p><img src="/post/ml/math/gradient/vector_move.svg" alt="vector_move" title="vector_move"></p>
+<p>Assuming \(f(x,y)\) is continuous, then we can rewite the directional derivative to</p>
+<p>$$D_\vec u = \lim \limits_{h \to 0}  \frac {f(x_0+h \bullet x_d, y_0+ h \bullet y_d) - f(x_0+h \bullet x_d, y_0) + f(x_0+h \bullet x_d, y_0) -f(x_0,y_0)}{h} $$
+$$=\frac{\partial f(x_0,y_0)}{\partial x} \bullet x_d + \frac{\partial f(x_0,y_0)}{\partial y} \bullet y_d=\nabla f(x_0,y_0) \bullet \vec u$$</p>
+<p>Provided \(\theta\) is the angle between \(\nabla f(x_0,y_0) \) and \(\vec u\), then</p>
+<p>$$\nabla f(x_0,y_0) \bullet \vec u = \lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert\ cos \theta \leq \lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert$$</p>
+<p>When and only when \(\nabla f(x_0,y_0)\) and \(\vec u\), in the same direction, we can have</p>
+<p>$$\lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert\ cos \theta = \lVert \nabla f(x_0,y_0) \rVert\  \lVert \vec u \rVert=\lVert \nabla f(x_0,y_0) \rVert$$</p>
+<h3 id="multi-dimensional-independent-variables">Multi-dimensional Independent Variables</h3>
+<p>We can continue the same analysis with multi-dimentional independent variables. With the dimension grows, the process of argument will become more complicated, but the backend logic is the same.</p>
+<h2 id="gradient-in-machine-learning">Gradient in Machine Learning</h2>
+<h3 id="gradient-descent">Gradient Descent</h3>
+<p>Gradient descent is an optimization algorithm for finding the local minimum of a differentiable function. Let&rsquo;s go through the algorithm with an example.</p>
+<p><strong>Example</strong>: Assuming we have a group of training data which represents people&rsquo;s height and weight:</p>
+<p>$$[h_i, w_i], 1 \leq i \leq n$$</p>
+<p>Now we want to train a model to predict one&rsquo;s weight based on height. To keep simple, let&rsquo;s choose linear regression as model. e.g. we assume people&rsquo;s height and weight hold below relationship:</p>
+<p>$$wight = a \bullet height +b$$</p>
+<p>Herein, \(a\) and \(b\) are two unknown parameters we will train later. How do we know which \(a\) and \(b\) are good for our prediction? Below funciton indicates the error between estimated weight and actual weight in training data.</p>
+<p>$$f(a,b) = \frac {1}{n} \sum_{i=1}^n (a \bullet h_i + b - w_i)^2$$</p>
+<p>Obviously, We should find \(a\) and \(b\) to make above error function get minimum. To achieve that, we can start from a random point \((a_0, b_0)\), then keep moving the point to reduce \(f(a,b)\) gradually. As we have known, \(\nabla f(a_0,b_0)\) is the direction where \(f(a,b)\) increases fastestly, so the opposite direction will decrease \(f(a,b)\) fastestly. the gradient descent algorithm could be described as below:</p>
+<ol>
+<li>Select an initial point \((a_0, b_0)\), select a learning rate \(\eta\)</li>
+<li>Set epoch indicator \(i=0\).</li>
+<li>Check if \(f(a_i, b_i)\) is smaller than predefined threshold, if so, return \(a_i, b_i\) and exit.</li>
+<li>Update \(\begin{bmatrix} a_{i+1} \\b_{i+1} \end{bmatrix} =   \begin{bmatrix} a_{i} \\b_{i} \end{bmatrix} - \eta \bullet \nabla f(a_i,b_i)\)</li>
+<li>\(i++\), repeat step 3.</li>
+</ol>
+<p>\(\eta\) is the learning rate, it represents how far we want to go in each epoch.</p>
+<h3 id="three-types-of-gradient-descent">Three Types of Gradient Descent</h3>
+<p>In above example, we use all the training data when updating parameters. When the training dataset becomes huge, the computation will be expensive. To get better performance, there are 3 different types of gradient descent used in the industry.</p>
+<ol>
+<li><strong>Batch Gradient Descent:</strong> Parameters are updated after computing the gradient of error with respect to the entire training set (the same as our example).</li>
+<li><strong>Stochastic Gradient Descent:</strong> Parameters are updated after computing the gradient of error with respect to a single training example.</li>
+<li><strong>Mini-Batch Gradient Descent:</strong> Parameters are updated after computing the gradient of error with respect to a subset of the training set. The subset of trainning set is called <strong>Mini-Batch</strong>.</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this page, we reviewed mathematic definition of gradient and describe how to use gradient descent to optimize parameters in machine learning. It&rsquo;s always interesting to see how abstract mathematic principle been applied in real world.</p>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://tozhan.github.io/img/author.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://tozhan.github.io/">Tony Zhang</a></h4>
+                <p></p>
+        </section>
+      </section>
+    </footer>
+</article>
+
+    
+    
+    
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://tozhan.github.io/post/python-descriptor-protocol-inside-out/">
+      <div class="post-card-image" style="background-image: url(https://tozhan.github.io/post/programming/python/descriptor/title.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://tozhan.github.io/post/python-descriptor-protocol-inside-out/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #programming 
+              #python  </span>
+              
+              <h2 class="post-card-title">Python Descriptor Protocol Inside-out</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>Introduction What is Descriptor  Descriptor Protocol Attribute Lookup Chain   Applications  Lazy Property   define lazy_property class Descriptors in Python Internals  Property Function &amp; Method Class Method Static Method   Reference  Introduction Descriptor protocol is a important concept in Python, which is the basis of many Python internal implementation, such as properties, functions, class methods and static methods. This tutorial will elaborate descriptor: ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://tozhan.github.io/img/author.jpg" alt="Author" />
+          <span class="post-card-author"><a href="/">Tony Zhang</a></span>
+      </footer>
+    </div>
+</article>
+
+      
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://tozhan.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">How Gradient Works in Machine Learning</div>
+  <div class="floating-header-share">
+    <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+     <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/></svg>
+    </div>
+    
+    <a class="floating-header-share-tw" href="https://twitter.com/share?text=How%20Gradient%20Works%20in%20Machine%20Learning&amp;url=https%3a%2f%2ftozhan.github.io%2fpost%2fhow-gradient-works-in-machine-learning%2f"
+          onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+      </a>
+      <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2ftozhan.github.io%2fpost%2fhow-gradient-works-in-machine-learning%2f"
+          onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+      </a>
+  </div>
+
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<script src="https://utteranc.es/client.js"
+repo="tozhan/tozhanblog-comments"
+issue-term="url"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="/"></a> © 2020 tozhan.github.io. All rights reserved. <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="/">Latest Posts</a>
+        <a href="https://www.facebook.com/tony.zhang.397948" target="_blank" rel="noopener">Facebook</a>
+        
+        <a href="https://github.com/tozhan" target="_blank" rel="noopener">Github</a>
+        
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://tozhan.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript" 
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+
+  <!-- Google Analytics -->
+  <script>
+    var _gaq=[['_setAccount','UA-54832953-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>
