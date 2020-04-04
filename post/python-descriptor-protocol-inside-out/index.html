@@ -141,20 +141,20 @@
 <li><a href="#reference">Reference</a></li>
 </ul>
 <!-- raw HTML omitted -->
-<h1 id="introduction">Introduction</h1>
+<h2 id="introduction">Introduction</h2>
 <p>Descriptor protocol is a important concept in Python, which is the basis of many Python internal implementation, such as properties, functions, class methods and static methods. This tutorial will elaborate descriptor:</p>
 <ol>
 <li><strong>What is Descriptor</strong> will introduce descriptor protocol, and how Python attribute lookup chain works.</li>
 <li><strong>Application</strong> will discuss one use case (lazy property) of descriptor protocol.</li>
 <li><strong>Descriptors in Python Internals</strong> shows how CPython leverage descriptor protocol to implement properties, functions, class &amp; static methods.</li>
 </ol>
-<h1 id="what-is-descriptor">What is Descriptor</h1>
+<h2 id="what-is-descriptor">What is Descriptor</h2>
 <p>First of all, let&rsquo;s define Descriptor. In short, a descriptor is an object meets following conditions:</p>
 <ol>
 <li>The object&rsquo;s class implements <a href="#descriptor-protocol">Descriptor Protocol</a>.</li>
 <li>The object is used as an attribute of another class.</li>
 </ol>
-<h2 id="descriptor-protocol">Descriptor Protocol</h2>
+<h3 id="descriptor-protocol">Descriptor Protocol</h3>
 <p>When we said one class implements descriptor protocol, it means the class implements at least one of below methods.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>__get__(self, instance, owner<span style="color:#f92672">=</span>None) <span style="color:#f92672">-&gt;</span> value
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>__set__(self, instance, value) <span style="color:#f92672">-&gt;</span> None
@@ -245,7 +245,7 @@ DataDescriptor __get__()
 5
 NonDataDescriptor __get__()
 NonDataDescriptor Value
-</code></pre><h2 id="attribute-lookup-chain">Attribute Lookup Chain</h2>
+</code></pre><h3 id="attribute-lookup-chain">Attribute Lookup Chain</h3>
 <p>All of the magic in descriptor comes from attribute lookup chain. Every time you access an attribute, Python will follow a chain to find the attribute. In general, Python will look up below places in order.</p>
 <ol>
 <li><strong>Data Descriptor</strong> - check whether attribute is a data description by following instance&rsquo;s <a href="https://www.python.org/download/releases/2.3/mro/">MRO</a>.</li>
@@ -256,10 +256,10 @@ NonDataDescriptor Value
 <p>Below is flow chart (got from <a href="https://www.google.com/books/edition/Python_Descriptors/n6lxDwAAQBAJ?hl=en&amp;gbpv=0">[2]</a>) summarizing above process.
 <img src="/post/programming/python/descriptor/obj_attr_lookup_chain.png" alt="Object Attribute Lookup Chain" title="Object Attribute Lookup Chain"></p>
 <p>As you can see, data descriptor and non-data descriptor have different priorities, we will leverage this property to implement Lazy Property in next section.</p>
-<h1 id="applications">Applications</h1>
-<h2 id="lazy-property">Lazy Property</h2>
+<h2 id="applications">Applications</h2>
+<h3 id="lazy-property">Lazy Property</h3>
 <p>Lazy property works like normal Python property, but its value will be cached after the first access. Below is an example about how to define and use lazy property.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#75715e"># define lazy_property class</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span style="color:#75715e">## define lazy_property class</span>
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">lazy_property</span>(object):
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span>    <span style="color:#66d9ef">def</span> __init__(self, fget):
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span>        self<span style="color:#f92672">.</span>fget <span style="color:#f92672">=</span> fget
@@ -299,9 +299,9 @@ instance __dict__: {'lp': 'I am lazy property'}
 ======== Second time access lp  ========
 I am lazy property
 </code></pre><p>As you can see, <code>__get__()</code> in <code>lazy_property</code> is only called at the first time. After that, <code>lp</code> attribute will be added to instance&rsquo;s <code>__dict__</code>, as instance&rsquo;s <code>__dict__</code> has higher priority than non-data descriptor, it hides future <code>__get__()</code> call.</p>
-<h1 id="descriptors-in-python-internals">Descriptors in Python Internals</h1>
+<h2 id="descriptors-in-python-internals">Descriptors in Python Internals</h2>
 <p>As we mentioned before, many of python internal implementations rely on descriptor protocol. Here we analyze some of them in CPython. If you are not familiar with C, <a href="https://docs.python.org/3/howto/descriptor.html">[1]</a> supplies corresponding Python emulation.</p>
-<h2 id="property">Property</h2>
+<h3 id="property">Property</h3>
 <p><code>PyProperty_Type</code> represents Python property class in CPython, as you can see from definition, it defines two descriptor methods: <code>property_descr_get()</code> (map to <code>__get__()</code>) and <code>property_descr_set()</code> (map to <code>__set__()</code> and <code>__delete__</code>). Obviously, Python property is a data descriptor.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>PyTypeObject PyProperty_Type <span style="color:#f92672">=</span> {
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>    PyVarObject_HEAD_INIT(<span style="color:#f92672">&amp;</span>PyType_Type, <span style="color:#ae81ff">0</span>)
@@ -364,7 +364,7 @@ I am lazy property
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span>    Py_DECREF(res);
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span>}</code></pre></div></p>
-<h2 id="function--method">Function &amp; Method</h2>
+<h3 id="function--method">Function &amp; Method</h3>
 <p><code>PyFunction_Type</code> defines <code>func_descr_get()</code> (<code>__get__()</code>), but doesn&rsquo;t define <code>__set__()</code> and <code>__delete__()</code>, so Python function/method is a non-data descriptor.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>PyTypeObject PyFunction_Type <span style="color:#f92672">=</span> {
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>    PyVarObject_HEAD_INIT(<span style="color:#f92672">&amp;</span>PyType_Type, <span style="color:#ae81ff">0</span>)
@@ -384,7 +384,7 @@ I am lazy property
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span>    }
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span>    <span style="color:#66d9ef">return</span> PyMethod_New(func, obj);
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span>}</code></pre></div></p>
-<h2 id="class-method">Class Method</h2>
+<h3 id="class-method">Class Method</h3>
 <p>Similar with normal function &amp; method. Class method is also a non-data descriptor.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>PyTypeObject PyClassMethod_Type <span style="color:#f92672">=</span> {
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>    PyVarObject_HEAD_INIT(<span style="color:#f92672">&amp;</span>PyType_Type, <span style="color:#ae81ff">0</span>)
@@ -412,7 +412,7 @@ I am lazy property
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span>    }
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span>    <span style="color:#66d9ef">return</span> PyMethod_New(cm<span style="color:#f92672">-&gt;</span>cm_callable, type);
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span>}</code></pre></div></p>
-<h2 id="static-method">Static Method</h2>
+<h3 id="static-method">Static Method</h3>
 <p>Statc method is almost the same as class method, but it doesn&rsquo;t need to bind <code>cls</code>. So <code>sm_descr_get()</code> just returns <code>sm_callable</code> directly
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span>PyTypeObject PyStaticMethod_Type <span style="color:#f92672">=</span> {
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span>    PyVarObject_HEAD_INIT(<span style="color:#f92672">&amp;</span>PyType_Type, <span style="color:#ae81ff">0</span>)
@@ -435,7 +435,7 @@ I am lazy property
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span>    Py_INCREF(sm<span style="color:#f92672">-&gt;</span>sm_callable);
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span>    <span style="color:#66d9ef">return</span> sm<span style="color:#f92672">-&gt;</span>sm_callable;
 <span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span>}</code></pre></div></p>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <p>[1] <a href="https://docs.python.org/3/howto/descriptor.html">https://docs.python.org/3/howto/descriptor.html</a></p>
 <p>[2] <a href="https://www.google.com/books/edition/Python_Descriptors/n6lxDwAAQBAJ?hl=en&amp;gbpv=0">Python Descriptors Understanding and Using the Descriptor Protocol</a></p>
 <p>[3] <a href="https://github.com/python/cpython">https://github.com/python/cpython</a></p>
